@@ -1,9 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { Tab } from '@headlessui/react'
-import clsx from 'clsx'
+import { useState } from 'react'
 
 import { Container } from '@/components/Container'
 export function PrimaryFeatures() {
@@ -15,7 +12,9 @@ export function PrimaryFeatures() {
   const [interestRate, setInterestRate] = useState(4.0)
 
   const anuity = (1 - Math.pow(1 + interestRate / 100 / 12, -numOfYears * 12)) / (interestRate / 100 / 12)
-  const monthlyPayment = (savings + monthlyContribution * anuity) / (1 - sakinsContribution / 100)
+  const budget = (savings + monthlyContribution * anuity) / (1 - sakinsContribution / 100)
+  const budgetDecimal = budget.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  const monthlyContributionDecimal = monthlyContribution.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
   return (
     <section
@@ -51,7 +50,7 @@ export function PrimaryFeatures() {
             </div>
             <div className="mx-auto sm:grid sm:grid-cols-2 gap-x-4 sm:items-start pb-6">
               <label htmlFor="monthlyContribution" className=" text-right font-bold block text-sm leading-6 text-gray-900 sm:pt-1.5">
-                Monthly Contribution (AED) {monthlyContribution}
+                Monthly Contribution (AED) <span className='text-red-700'>{monthlyContributionDecimal}</span>
               </label>
               <div className="mt-2 sm:mt-0">
                 <input id="monthlyContribution" min={0} max={25000} type="range" onChange={e => setContribution(parseInt(e.target.value))} value={monthlyContribution} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-red-300" />
@@ -60,7 +59,7 @@ export function PrimaryFeatures() {
 
             <div className="mx-auto sm:grid sm:grid-cols-2 gap-x-4 sm:items-start pb-6">
               <label htmlFor="sakinsContribution" className=" text-right font-bold block text-sm leading-6 text-gray-900 sm:pt-1.5">
-                % of Sakin’s Contribution: {sakinsContribution}%
+                % of Sakin’s Contribution: <span className='text-red-700'>{sakinsContribution}%</span>
               </label>
               <div className="mt-2 sm:mt-0">
                 <input id="sakinsContribution" min={0} max={100} type="range" value={sakinsContribution} onChange={e => setSakinsContribution(parseFloat(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-red-300" />
@@ -83,10 +82,19 @@ export function PrimaryFeatures() {
                 />
               </div>
             </div>
+
+            <div className="mx-auto sm:grid sm:grid-cols-2 gap-x-4 sm:items-start pb-6">
+              <label htmlFor="sakinsInterest" className=" text-right font-bold block text-sm leading-6 text-gray-900 sm:pt-1.5">
+                % of Sakin’s Interest Rate: <span className='text-red-700'>{interestRate}%</span>
+              </label>
+              <div className="mt-2 sm:mt-0">
+                <input id="sakinsInterest" min={0} max={100} type="range" value={interestRate} onChange={e => setInterestRate(parseFloat(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-red-300" />
+              </div>
+            </div>
           </form>
 
           <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
-            You can afford a home up to <span className='text-red-700'>{monthlyPayment} AED</span>
+            You can afford a home up to <span className='text-red-700'>{budgetDecimal} AED</span>
           </h2>
         </div>
 
