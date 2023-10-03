@@ -6,11 +6,11 @@ import { type Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: {
-    template: '%s - TaxPal',
-    default: 'TaxPal - Accounting made simple for small businesses',
+    template: 'Sakin',
+    default: 'Sakin - Making ownership a reality',
   },
   description:
-    'Most bookkeeping software is accurate, but hard to use. We make the opposite trade-off, and hope you don’t get audited.',
+    'Sakin is a platform that allows you to buy a home with small loans.',
 }
 
 const inter = Inter({
