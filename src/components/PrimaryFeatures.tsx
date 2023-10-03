@@ -62,7 +62,7 @@ export function PrimaryFeatures() {
                 Sakin loan percentage: <span className='text-red-700'>{sakinsContribution}%</span>
               </label>
               <div className="mt-2 sm:mt-0">
-                <input id="sakinsContribution" min={0} max={100} type="range" value={sakinsContribution} onChange={e => setSakinsContribution(parseFloat(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-red-300" />
+                <input id="sakinsContribution" min={0} max={20} type="range" value={sakinsContribution} onChange={e => setSakinsContribution(parseFloat(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-red-300" />
               </div>
             </div>
 
