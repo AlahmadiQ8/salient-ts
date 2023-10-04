@@ -95,7 +95,7 @@ export function PrimaryFeatures() {
           </h2>
 
           <div className='flex justify-start flex-col mt-2'>
-            <p className='text-sm'>Sakin's Contribtion : <span className='text-red-700'>{sakinsContributionAmountDecimal} AED</span></p>
+            <p className='text-sm'>Sakin&rsquo;s Contribtion : <span className='text-red-700'>{sakinsContributionAmountDecimal} AED</span></p>
             <p className='text-sm'>Total Monthly Payement: <span className='text-red-700'>{totalMonthlyPaymentDecimal} AED</span></p>
           </div>
         </div>
