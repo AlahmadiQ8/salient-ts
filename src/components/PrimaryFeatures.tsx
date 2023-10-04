@@ -5,16 +5,21 @@ import { useState } from 'react'
 import { Container } from '@/components/Container'
 export function PrimaryFeatures() {
 
-  const [savings, setSavings] = useState(50000)
+  const [savings, setSavings] = useState(100000)
   const [monthlyContribution, setContribution] = useState(10000)
-  const [sakinsContribution, setSakinsContribution] = useState(4)
+  const [sakinsContribution, setSakinsContribution] = useState(0)
   const [numOfYears, setNumOfYears] = useState(25)
   const [interestRate, setInterestRate] = useState(4.0)
 
   const anuity = (1 - Math.pow(1 + interestRate / 100 / 12, -numOfYears * 12)) / (interestRate / 100 / 12)
   const budget = (savings + monthlyContribution * anuity) / (1 - sakinsContribution / 100)
+
   const budgetDecimal = budget.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-  const monthlyContributionDecimal = monthlyContribution.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  const monthlyContributionDecimal = monthlyContribution.toFixed(0).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  const sakinsContributionAmount = (budget * sakinsContribution / 100)
+  const sakinsContributionAmountDecimal = sakinsContributionAmount.toFixed(0).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  const totalMonthlyPayment = sakinsContributionAmount * 0.05 / 12 + monthlyContribution
+  const totalMonthlyPaymentDecimal = totalMonthlyPayment.toFixed(0).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
   return (
     <section
@@ -50,10 +55,10 @@ export function PrimaryFeatures() {
             </div>
             <div className="mx-auto sm:grid sm:grid-cols-2 gap-x-4 sm:items-start pb-6">
               <label htmlFor="monthlyContribution" className=" text-right font-bold block text-sm leading-6 text-gray-900 sm:pt-1.5">
-                Monthly Contribution (AED) <span className='text-red-700'>{monthlyContributionDecimal}</span>
+                Monthly Mortgage Payment (AED) <span className='text-red-700'>{monthlyContributionDecimal}</span>
               </label>
               <div className="mt-2 sm:mt-0">
-                <input id="monthlyContribution" min={0} max={25000} type="range" onChange={e => setContribution(parseInt(e.target.value))} value={monthlyContribution} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-red-300" />
+                <input id="monthlyContribution" min={0} max={25000} step={500} type="range" onChange={e => setContribution(parseInt(e.target.value))} value={monthlyContribution} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-red-300" />
               </div>
             </div>
 
@@ -62,7 +67,7 @@ export function PrimaryFeatures() {
                 Sakin loan percentage: <span className='text-red-700'>{sakinsContribution}%</span>
               </label>
               <div className="mt-2 sm:mt-0">
-                <input id="sakinsContribution" min={0} max={20} type="range" value={sakinsContribution} onChange={e => setSakinsContribution(parseFloat(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-red-300" />
+                <input id="sakinsContribution" min={0} max={25} type="range" value={sakinsContribution} onChange={e => setSakinsContribution(parseFloat(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-red-300" />
               </div>
             </div>
 
@@ -77,7 +82,7 @@ export function PrimaryFeatures() {
 
             <div className="mx-auto sm:grid sm:grid-cols-2 gap-x-4 sm:items-start pb-6">
               <label htmlFor="sakinsInterest" className=" text-right font-bold block text-sm leading-6 text-gray-900 sm:pt-1.5">
-                Interest Rate: <span className='text-red-700'>{interestRate}%</span>
+                Mortgage Interest Rate: <span className='text-red-700'>{interestRate}%</span>
               </label>
               <div className="mt-2 sm:mt-0">
                 <input id="sakinsInterest" min={3} max={5} type="range" value={interestRate} onChange={e => setInterestRate(parseFloat(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-red-300" />
@@ -88,6 +93,11 @@ export function PrimaryFeatures() {
           <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
             You can afford a home up to <span className='text-red-700'>{budgetDecimal} AED</span>
           </h2>
+
+          <div className='flex justify-start flex-col mt-2'>
+            <p className='text-sm'>Sakin's Contribtion : <span className='text-red-700'>{sakinsContributionAmountDecimal} AED</span></p>
+            <p className='text-sm'>Total Monthly Payement: <span className='text-red-700'>{totalMonthlyPaymentDecimal} AED</span></p>
+          </div>
         </div>
 
       </Container>
